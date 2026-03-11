@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Student</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+  <h1>Edit Student</h1>
+</header>
+<div class="container">
+  <form id="editForm">
+    <label>Name</label>
+    <input type="text" name="name" required>
+    <label>Email</label>
+    <input type="email" name="email" required>
+    <label>Age</label>
+    <input type="number" name="age" required>
+    <button type="submit">Update Student</button>
+  </form>
+</div>
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get('id');
+const form = document.getElementById('editForm');
+
+async function loadStudent() {
+  const res = await fetch(`http://localhost:5000/api/students/${id}`);
+  const student = await res.json();
+  form.name.value = student.name;
+  form.email.value = student.email;
+  form.age.value = student.age;
+}
+
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  const data = { name: form.name.value, email: form.email.value, age: form.age.value };
+  await fetch(`http://localhost:5000/api/students/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+  alert("Student updated!");
+  window.location.href = "students.html";
+});
+
+loadStudent();
+</script>
+
+<div class="container">
+  <a href="students.html"><button>Home</button></a>
+ 
+</div>
+
+</body>
+</html>

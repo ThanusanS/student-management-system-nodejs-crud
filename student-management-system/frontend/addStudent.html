@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Student</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+  <h1>Add New Student</h1>
+</header>
+<div class="container">
+  <form id="addForm">
+    <label>Name</label>
+    <input type="text" name="name" required>
+    <label>Email</label>
+    <input type="email" name="email" required>
+    <label>Age</label>
+    <input type="number" name="age" required>
+    <button type="submit">Add Student</button>
+  </form>
+</div>
+<script>
+document.getElementById("addForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const form = e.target;
+  const data = {
+    name: form.name.value,
+    email: form.email.value,
+    age: form.age.value
+  };
+  await fetch("http://localhost:5000/api/students", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(data)
+  });
+  alert("Student added!");
+  form.reset();
+});
+</script>
+
+<div class="container">
+  <a href="students.html"><button>Home</button></a>
+ 
+</div>
+
+</body>
+</html>
